@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Schedules</title>
+
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="logo">MedFinder</div>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="doctors.html">Doctors</a>
+    <a href="hospitals.html">Hospitals</a>
+    <div id="authButtons"></div>
+  </nav>
+</header>
+
+<section class="dashboard">
+
+  <div class="section-title">
+    <h2>My Schedules</h2>
+    <p>Manage your hospital-wise availability.</p>
+  </div>
+  <div id="mySchedulesList"></div>
+
+  <br>
+  <form class="review-form" id="myScheduleForm">
+
+    
+    <select id="myHospitalDoctorSelect" required>
+      <option value="">Select Hospital</option>
+    </select>
+
+    <select id="myDayOfWeek" required>
+      <option value="Monday">Monday</option>
+      <option value="Tuesday">Tuesday</option>
+      <option value="Wednesday">Wednesday</option>
+      <option value="Thursday">Thursday</option>
+      <option value="Friday">Friday</option>
+      <option value="Saturday">Saturday</option>
+      <option value="Sunday">Sunday</option>
+    </select>
+
+    <input type="time" id="myStartTime" required>
+
+    <input type="time" id="myEndTime" required>
+
+    <button type="submit">
+      Add Schedule
+    </button>
+
+  </form>
+</section>
+<div class="profile-modal-overlay" id="editMyScheduleModal" style="display:none;">
+
+  <div class="profile-modal">
+
+    <div class="profile-modal-header">
+      <h2>Edit Schedule</h2>
+
+      <button class="close-modal-btn" onclick="closeEditMyScheduleModal()">
+        ×
+      </button>
+    </div>
+
+    <form class="edit-profile-form" id="editMyScheduleForm">
+
+      <input type="hidden" id="editMyScheduleId">
+      <input type="hidden" id="editMyScheduleHospitalDoctorId">
+
+      <div class="edit-profile-grid">
+
+        <div class="edit-profile-field">
+          <label>Day</label>
+
+          <select id="editMyScheduleDay" required>
+            <option value="Monday">Monday</option>
+            <option value="Tuesday">Tuesday</option>
+            <option value="Wednesday">Wednesday</option>
+            <option value="Thursday">Thursday</option>
+            <option value="Friday">Friday</option>
+            <option value="Saturday">Saturday</option>
+            <option value="Sunday">Sunday</option>
+          </select>
+        </div>
+
+        <div class="edit-profile-field">
+          <label>Start Time</label>
+
+          <input type="time" id="editMyScheduleStart" required>
+        </div>
+
+        <div class="edit-profile-field">
+          <label>End Time</label>
+
+          <input type="time" id="editMyScheduleEnd" required>
+        </div>
+
+      </div>
+
+      <div class="edit-profile-actions">
+        <button type="submit" class="save-profile-btn">
+          Update Schedule
+        </button>
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+<script src="assets/js/notify.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/navbar.js"></script>
+<script src="assets/js/my-schedules.js"></script>
+
+</body>
+</html>

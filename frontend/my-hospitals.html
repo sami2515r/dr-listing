@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Hospitals</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="logo">MedFinder</div>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="doctors.html">Doctors</a>
+    <a href="hospitals.html">Hospitals</a>
+    <div id="authButtons"></div>
+  </nav>
+</header>
+
+<section class="dashboard">
+  <div class="section-title">
+    <h2>My Hospitals</h2>
+    <p>Manage hospital requests and assigned hospitals</p>
+  </div>
+
+  <div class="filter-bar">
+    <select id="hospitalSelect">
+      <option value="">Select Hospital</option>
+    </select>
+
+    <button onclick="sendHospitalRequest()" class="search-btn">
+      Send Request
+    </button>
+  </div>
+
+<h3>Approved Hospitals</h3>
+<br>
+<div id="approvedHospitals"></div>
+<br>
+<div class="hospital-section">
+  <h3>Pending Requests</h3>
+<br>
+  <div id="pendingHospitals"></div>
+</div>
+<br>
+<div class="hospital-section">
+  <h3>Rejected Requests</h3>
+  <div id="rejectedHospitals"></div>
+</div>
+</section>
+
+<script src="assets/js/notify.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/navbar.js"></script>
+<script src="assets/js/my-hospitals.js"></script>
+
+</body>
+</html>

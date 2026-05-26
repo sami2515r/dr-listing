@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hospitals</title>
+
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="navbar">
+
+  <div class="logo">
+    MedFinder
+  </div>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="doctors.html">Doctors</a>
+    <a href="hospitals.html">Hospitals</a>
+    <div id="authButtons"></div>
+  </nav>
+
+</header>
+
+<section class="hospital-hero">
+
+  <div>
+    <span class="hero-badge">Trusted Healthcare Network</span>
+
+    <h1>
+      Find Hospitals Near You
+    </h1>
+
+    <p>
+      Explore verified hospitals with contact details, address information,
+      facilities and location data.
+    </p>
+  </div>
+
+</section>
+
+<section class="hospital-search-section">
+
+  <div class="hospital-search-box">
+
+    <input
+      type="text"
+      id="hospitalSearch"
+      placeholder="Search hospital by name, city or type..."
+      onkeyup="filterHospitals()"
+    >
+
+  </div>
+
+</section>
+
+<section class="hospital-list-section">
+
+  <div class="section-title">
+    <h2>Available Hospitals</h2>
+    <p>Browse hospitals registered on MedFinder</p>
+  </div>
+
+  <div class="hospital-grid" id="hospitalList">
+
+    <div class="loader">
+      Loading hospitals...
+    </div>
+
+  </div>
+
+</section>
+
+<script src="assets/js/notify.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/hospital.js"></script>
+<script src="assets/js/navbar.js"></script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doctor Profile</title>
+
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="navbar">
+
+  <div class="logo">
+    MedFinder
+  </div>
+
+  <nav>
+
+    <a href="index.html">Home</a>
+
+    <a href="doctors.html">Doctors</a>
+
+    <a href="hospitals.html">Hospitals</a>
+
+    <div id="authButtons"></div>
+
+  </nav>
+
+</header>
+
+<section class="doctor-profile" id="doctorProfile"></section>
+<section class="doctor-schedules-section">
+
+  <div class="section-title">
+    <h2>Doctor Schedules</h2>
+  </div>
+
+  <div id="doctorSchedules"></div>
+
+</section>
+
+<section class="doctor-hospitals-section">
+
+  <div class="section-title">
+    <h2>Associated Hospitals</h2>
+  </div>
+
+  <div id="doctorHospitals"></div>
+
+</section>
+<section class="review-form-section">
+
+  <div class="section-title">
+    <h2>Write a Review</h2>
+  </div>
+
+  <form class="review-form" id="reviewForm">
+
+    <input type="text" id="patientName" placeholder="Your Name" required>
+
+    <input type="email" id="patientEmail" placeholder="Your Email" required>
+
+<select id="rating" required>
+  <option value="">Select Rating</option>
+
+  <option value="5">5.0 - Excellent</option>
+  <option value="4.5">4.5 - Very Good</option>
+  <option value="4">4.0 - Good</option>
+  <option value="3.5">3.5 - Above Average</option>
+  <option value="3">3.0 - Average</option>
+  <option value="2.5">2.5 - Below Average</option>
+  <option value="2">2.0 - Poor</option>
+  <option value="1.5">1.5 - Very Poor</option>
+  <option value="1">1.0 - Worst</option>
+</select>
+
+    <input type="text" id="reviewTitle" placeholder="Review Title" required>
+
+    <textarea id="reviewText" placeholder="Write your review..." required></textarea>
+
+    <button type="submit">
+      Submit Review
+    </button>
+
+  </form>
+
+</section>
+
+<section class="reviews-section">
+  <div class="section-title">
+    <h2>Patient Reviews</h2>
+  </div>
+
+  <div id="reviewsContainer"></div>
+</section>
+
+<script src="assets/js/notify.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/doctor-details.js"></script>
+<script src="assets/js/navbar.js"></script>
+</body>
+</html>

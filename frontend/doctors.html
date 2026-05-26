@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doctors</title>
+
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="navbar">
+
+  <div class="logo">
+    MedFinder
+  </div>
+
+  <nav>
+
+    <a href="index.html">Home</a>
+
+    <a href="doctors.html">Doctors</a>
+
+    <a href="hospitals.html">Hospitals</a>
+
+    <div id="authButtons"></div>
+
+  </nav>
+
+</header>
+<div class="filter-bar premium-filter">
+
+  <input
+    type="text"
+    id="doctorSearch"
+    placeholder="Search doctor, specialization, hospital, city..."
+  />
+
+  <select id="specializationFilter">
+    <option value="">All Specializations</option>
+  </select>
+
+  <select id="cityFilter">
+    <option value="">All Locations</option>
+  </select>
+
+  <select id="availabilityFilter">
+    <option value="">All Status</option>
+    <option value="Available">Available</option>
+    <option value="Busy">Busy</option>
+  </select>
+
+  <button onclick="filterDoctors()" class="search-btn">
+    Search
+  </button>
+
+  <button onclick="clearDoctorFilters()" class="clear-btn">
+    Clear
+  </button>
+
+</div>
+<section class="page-header">
+  <h1>Our Doctors</h1>
+</section>
+
+<section>
+  <div class="doctor-grid" id="doctorGrid"></div>
+</section>
+<script src="assets/js/notify.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/doctors.js"></script>
+<script src="assets/js/navbar.js"></script>
+</body>
+</html>

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Schedules Management - Dr Listing Admin</title>
+
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700,800,900" rel="stylesheet">
+  <link href="css/sb-admin-2.min.css" rel="stylesheet">
+</head>
+
+<body id="page-top">
+
+<div id="wrapper">
+
+  <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+      <div class="sidebar-brand-icon">
+        <i class="fas fa-user-md"></i>
+      </div>
+      <div class="sidebar-brand-text mx-3">
+        Dr Listing Admin
+      </div>
+    </a>
+
+    <hr class="sidebar-divider my-0">
+
+    <li class="nav-item">
+      <a class="nav-link" href="index.html">
+        <i class="fas fa-fw fa-tachometer-alt"></i>
+        <span>Dashboard</span>
+      </a>
+    </li>
+
+    <hr class="sidebar-divider">
+
+    <div class="sidebar-heading">
+      Management
+    </div>
+
+    <li class="nav-item">
+      <a class="nav-link" href="doctors.html">
+        <i class="fas fa-user-md"></i>
+        <span>Doctors</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="pending-doctors.html">
+        <i class="fas fa-user-clock"></i>
+        <span>Pending Doctors</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="hospitals.html">
+        <i class="fas fa-hospital"></i>
+        <span>Hospitals</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="doctor-hospitals.html">
+        <i class="fas fa-clinic-medical"></i>
+        <span>Doctor Hospitals</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="degrees.html">
+        <i class="fas fa-graduation-cap"></i>
+        <span>Degrees</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="specializations.html">
+        <i class="fas fa-stethoscope"></i>
+        <span>Specializations</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="reviews.html">
+        <i class="fas fa-star"></i>
+        <span>Reviews</span>
+      </a>
+    </li>
+
+    <li class="nav-item active">
+      <a class="nav-link" href="schedules.html">
+        <i class="fas fa-calendar-alt"></i>
+        <span>Schedules</span>
+      </a>
+    </li>
+
+  </ul>
+
+  <div id="content-wrapper" class="d-flex flex-column">
+
+    <div id="content">
+
+      <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+          <i class="fa fa-bars"></i>
+        </button>
+
+        <ul class="navbar-nav ml-auto">
+          <span class="mr-2 d-none d-lg-inline text-gray-600 small" id="adminName">
+            Admin
+          </span>
+        </ul>
+
+      </nav>
+
+      <div class="container-fluid">
+
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+          <div>
+            <h1 class="h3 mb-0 text-gray-800">
+              Schedules Management
+            </h1>
+
+            <p class="mb-0 text-muted">
+              Manage doctor availability for each assigned hospital.
+            </p>
+          </div>
+        </div>
+
+        <div class="card shadow mb-4">
+
+          <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">
+              Add Doctor Schedule
+            </h6>
+          </div>
+
+          <div class="card-body">
+
+            <form id="scheduleForm">
+
+              <div class="row">
+
+                <div class="col-md-4 mb-3">
+                  <label>Doctor Hospital Mapping</label>
+
+                  <select id="hospitalDoctorSelect" class="form-control" required>
+                    <option value="">Loading mappings...</option>
+                  </select>
+                </div>
+
+                <div class="col-md-2 mb-3">
+                  <label>Day</label>
+
+                  <select id="dayOfWeek" class="form-control" required>
+                    <option value="Monday">Monday</option>
+                    <option value="Tuesday">Tuesday</option>
+                    <option value="Wednesday">Wednesday</option>
+                    <option value="Thursday">Thursday</option>
+                    <option value="Friday">Friday</option>
+                    <option value="Saturday">Saturday</option>
+                    <option value="Sunday">Sunday</option>
+                  </select>
+                </div>
+
+                <div class="col-md-2 mb-3">
+                  <label>Start Time</label>
+
+                  <input type="time" id="startTime" class="form-control" required>
+                </div>
+
+                <div class="col-md-2 mb-3">
+                  <label>End Time</label>
+
+                  <input type="time" id="endTime" class="form-control" required>
+                </div>
+
+                <div class="col-md-2 mb-3 d-flex align-items-end">
+                  <button type="submit" class="btn btn-primary btn-block">
+                    Add
+                  </button>
+                </div>
+
+              </div>
+
+            </form>
+
+          </div>
+
+        </div>
+
+        <div class="card shadow mb-4">
+
+          <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">
+              All Schedules
+            </h6>
+
+            <span class="badge badge-primary" id="scheduleCount">
+              0 Schedules
+            </span>
+          </div>
+
+          <div class="card-body">
+
+            <div class="table-responsive">
+
+              <table class="table table-bordered table-hover">
+
+                <thead>
+                  <tr>
+                    <th>Doctor</th>
+                    <th>Hospital</th>
+                    <th>Day</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+
+                <tbody id="schedulesTableBody">
+                  <tr>
+                    <td colspan="6" class="text-center">
+                      Loading schedules...
+                    </td>
+                  </tr>
+                </tbody>
+
+              </table>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <footer class="sticky-footer bg-white">
+      <div class="container my-auto">
+        <div class="copyright text-center my-auto">
+          <span>Copyright &copy; Dr Listing Admin 2026</span>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+</div>
+<div class="modal fade" id="editScheduleModal" tabindex="-1" role="dialog">
+
+  <div class="modal-dialog" role="document">
+
+    <div class="modal-content">
+
+      <form id="editScheduleForm">
+
+        <div class="modal-header">
+          <h5 class="modal-title">
+            Edit Schedule
+          </h5>
+
+          <button class="close" type="button" data-dismiss="modal">
+            <span>&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+
+          <input type="hidden" id="editScheduleId">
+          <input type="hidden" id="editScheduleHospitalDoctorId">
+
+          <div class="form-group">
+            <label>Day</label>
+
+            <select id="editScheduleDay" class="form-control" required>
+              <option value="Monday">Monday</option>
+              <option value="Tuesday">Tuesday</option>
+              <option value="Wednesday">Wednesday</option>
+              <option value="Thursday">Thursday</option>
+              <option value="Friday">Friday</option>
+              <option value="Saturday">Saturday</option>
+              <option value="Sunday">Sunday</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Start Time</label>
+
+            <input
+              type="time"
+              id="editScheduleStart"
+              class="form-control"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label>End Time</label>
+
+            <input
+              type="time"
+              id="editScheduleEnd"
+              class="form-control"
+              required
+            >
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">
+            Cancel
+          </button>
+
+          <button class="btn btn-primary" type="submit">
+            Update Schedule
+          </button>
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+</div>
+<script src="../assets/js/notify.js"></script>
+<script src="js/auth-guard.js"></script>
+
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="js/sb-admin-2.min.js"></script>
+
+<script src="../assets/js/api.js"></script>
+<script src="js/schedules.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <title>Doctor Registration</title>
+
+  <link rel="stylesheet"
+        href="assets/css/style.css">
+
+</head>
+
+<body>
+
+<div class="register-page">
+
+  <form class="register-card"
+        id="registerForm"
+        enctype="multipart/form-data">
+
+    <h1>
+      Doctor Registration
+    </h1>
+
+    <p>
+      Create your professional doctor profile
+    </p>
+
+    <div class="register-field">
+
+      <label>Full Name</label>
+
+      <input type="text"
+             id="name"
+             placeholder="Enter full name">
+
+    </div>
+
+   <div class="register-field">
+  <label>Email Address</label>
+
+  <input
+    type="email"
+    id="email"
+    placeholder="Enter email"
+    pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+    title="Enter a valid email address like doctor@example.com"
+    required
+  >
+</div>
+    <div class="register-field">
+  <label>Password</label>
+
+  <input
+    type="password"
+    id="password"
+    placeholder="Min 8 chars, 1 letter, 1 number, 1 special symbol"
+    pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$"
+    title="Password must be at least 8 characters with one letter, one number, and one special symbol"
+    required
+  >
+</div>
+   <div class="register-field">
+
+  <label>Phone Number</label>
+
+<input
+  type="tel"
+  id="phone"
+  placeholder="Enter 10 digit phone number"
+  maxlength="10"
+  inputmode="numeric"
+  autocomplete="tel"
+  onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+  required
+>
+
+</div>
+
+    <div class="register-field">
+
+      <label>Degree</label>
+
+<select id="qualification" required>
+  <option value="">Select Degree</option>
+</select>
+
+    </div>
+
+    <div class="register-field">
+
+  <label>Specialization</label>
+
+  <select id="specialization" required>
+    <option value="">Select Specialization</option>
+  </select>
+
+</div>
+
+    <div class="register-field">
+
+      <label>Consulting Fee</label>
+
+      <input type="number"
+             id="consulting_fee"
+             placeholder="₹ Enter fee">
+
+    </div>
+
+    <div class="register-field">
+
+      <label>Availability Status</label>
+
+      <select id="availability_status">
+
+        <option value="Available">
+          Available
+        </option>
+
+        <option value="Busy">
+          Busy
+        </option>
+
+        <option value="On Leave">
+          On Leave
+        </option>
+
+      </select>
+
+    </div>
+
+    <div class="register-field">
+
+      <label>Professional Description</label>
+
+      <textarea id="description"
+                placeholder="Write about your experience"></textarea>
+
+    </div>
+
+    <div class="register-field">
+
+      <label>Profile Image</label>
+
+      <input type="file"
+             id="profile_image">
+
+    </div>
+
+    <button type="submit"
+            class="register-btn">
+
+      Register
+
+    </button>
+
+    <div class="register-login">
+
+      Already have an account?
+
+      <a href="login.html">
+        Login
+      </a>
+
+    </div>
+
+  </form>
+
+</div>
+<script src="assets/js/notify.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/register.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,1 @@
+const API_BASE = 'http://localhost/dr_listing/api';
