@@ -172,11 +172,17 @@ function filterDoctors() {
       ${specializationText}
       ${locationText}
       ${doctor.availability_status || ''}
-      ${doctor.consulting_fee || ''}
+
     `.toLowerCase();
 
     return (
-      (searchValue === '' || searchableText.includes(searchValue)) &&
+      (
+  searchValue === '' ||
+  (/^\d+$/.test(searchValue)
+    ? Number(doctor.consulting_fee) === Number(searchValue)
+    : searchableText.includes(searchValue)
+  )
+) &&
       (availabilityValue === '' ||
         (doctor.availability_status || '').toLowerCase() === availabilityValue) &&
       (specializationValue === '' ||
@@ -202,13 +208,15 @@ function clearDoctorFilters() {
 
 
 async function loadFilterOptions() {
-  const specializationSelect = document.getElementById('specializationFilter');
-  const citySelect = document.getElementById('cityFilter');
+const specializationSelect = document.getElementById('specializationFilter');
+const citySelect = document.getElementById('cityFilter');
+const availabilitySelect = document.getElementById('availabilityFilter');
 
-  if (!specializationSelect || !citySelect) return;
+if (!specializationSelect || !citySelect || !availabilitySelect) return;
 
-  specializationSelect.innerHTML = `<option value="">All Specializations</option>`;
-  citySelect.innerHTML = `<option value="">All Cities</option>`;
+specializationSelect.innerHTML = `<option value="">All Specializations</option>`;
+citySelect.innerHTML = `<option value="">All Locations</option>`;
+availabilitySelect.innerHTML = `<option value="">All Status</option>`;
 
   try {
     const response = await fetch(`${API_BASE}/specializations/all.php`);
@@ -247,6 +255,23 @@ async function loadFilterOptions() {
       </option>
     `;
   });
+
+  const statuses = [
+  ...new Set(
+    allDoctors
+      .map((doctor) => doctor.availability_status)
+      .filter(Boolean)
+  )
+];
+
+statuses.forEach((status) => {
+  availabilitySelect.innerHTML += `
+    <option value="${status}">
+      ${status}
+    </option>
+  `;
+});
+$('.chosen-select').trigger('chosen:updated');
 }
 document.addEventListener('DOMContentLoaded', () => {
   const searchInput = document.getElementById('doctorSearch');
@@ -261,3 +286,14 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 loadDoctors();
+
+function initChosenSelects() {
+  if (typeof $ !== 'undefined' && $.fn.chosen) {
+    $('.chosen-select').chosen({
+      width: '100%',
+      no_results_text: 'No results found'
+    });
+  }
+}
+
+document.addEventListener('DOMContentLoaded', initChosenSelects);

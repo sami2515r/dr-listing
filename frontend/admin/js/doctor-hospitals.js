@@ -1,3 +1,5 @@
+const pendingJoinRequests = document.getElementById('pendingJoinRequests');
+const pendingJoinRequestCount = document.getElementById('pendingJoinRequestCount');
 const doctorSelect = document.getElementById('doctorSelect');
 const hospitalSelect = document.getElementById('hospitalSelect');
 const assignedHospitals = document.getElementById('assignedHospitals');
@@ -8,7 +10,9 @@ const pendingRequestCount = document.getElementById('pendingRequestCount');
 
 async function loadDoctors() {
   try {
-    const response = await fetch(`${API_BASE}/doctors/list.php`);
+    const response = await fetch(`${API_BASE}/doctors/list.php`, {
+  credentials: 'include'
+});
     const result = await response.json();
 
     const doctors = result.data || [];
@@ -29,7 +33,9 @@ async function loadDoctors() {
 
 async function loadHospitals() {
   try {
-    const response = await fetch(`${API_BASE}/hospitals/list.php`);
+    const response = await fetch(`${API_BASE}/hospitals/list.php`, {
+  credentials: 'include'
+});
     const result = await response.json();
 
     const hospitals = result.data || [];
@@ -204,7 +210,9 @@ async function removeHospital(hospitalId) {
 
 async function loadAllDoctorHospitalLinks() {
   try {
-    const response = await fetch(`${API_BASE}/hospital_doctors/all.php`);
+    const response = await fetch(`${API_BASE}/hospital_doctors/all.php`, {
+  credentials: 'include'
+});
     const result = await response.json();
 
     const links = result.data || [];
@@ -249,28 +257,199 @@ async function loadAllDoctorHospitalLinks() {
 }
 
 loadAllDoctorHospitalLinks();
+
 async function loadPendingHospitalRequests() {
+
+  const pendingContainer =
+    document.getElementById('pendingHospitalRequests');
+
   try {
-    const response = await fetch(`${API_BASE}/admin/hospital_requests.php`);
+
+    const response = await fetch(
+      `${API_BASE}/hospitals/admin_list.php`
+    );
+
     const result = await response.json();
 
     const requests = result.data || [];
 
-    pendingRequestCount.innerText = `${requests.length} Pending`;
+    const pendingRequests = requests.filter((item) =>
+  Number(item.status) === 0 && item.created_by_doctor_id
+);
+pendingRequestCount.innerText = `${pendingRequests.length} Pending`;
+    if (pendingRequests.length === 0) {
+
+      pendingContainer.innerHTML = `
+        <div class="empty-state">
+          No pending hospital requests.
+        </div>
+      `;
+
+      return;
+    }
+
+    pendingContainer.innerHTML = '';
+
+    pendingRequests.forEach((item) => {
+
+      pendingContainer.innerHTML += `
+        <div class="doctor-card">
+
+          <div class="doctor-content">
+
+            <h3>${item.name}</h3>
+
+            <p>${item.hospital_type || ''}</p>
+
+            <p>
+              ${item.city || ''},
+              ${item.state || ''}
+            </p>
+
+            <p>
+              Requested By:
+              <strong>${item.doctor_name}</strong>
+            </p>
+
+            <div style="margin-top:18px; display:flex; gap:12px;">
+
+<button
+  class="btn btn-success btn-sm"
+  onclick="approveHospitalRequest(${item.id})"
+>
+  Approve
+</button>
+
+<button
+  class="btn btn-danger btn-sm"
+  onclick="rejectHospitalRequest(${item.id})"
+>
+  Reject
+</button>
+
+            </div>
+
+          </div>
+
+        </div>
+      `;
+    });
+
+  } catch (error) {
+
+    console.log(error);
+
+    showToast(
+      'Failed to load pending requests',
+      'error'
+    );
+  }
+}
+
+async function approveHospitalRequest(id) {
+
+  const formData = new FormData();
+
+  formData.append('hospital_id', id);
+
+  try {
+
+    const response = await fetch(
+      `${API_BASE}/hospitals/approve.php`,
+      {
+  method: 'POST',
+  body: formData,
+  credentials: 'include'
+      }
+    );
+
+    const result = await response.json();
+
+    if (result.status === true) {
+
+      showToast('Hospital approved', 'success');
+
+      loadPendingHospitalRequests();
+      loadAllDoctorHospitalLinks();
+
+    } else {
+
+      showToast(result.message, 'error');
+    }
+
+  } catch (error) {
+
+    console.log(error);
+
+    showToast('Server error', 'error');
+  }
+}
+
+async function rejectHospitalRequest(id) {
+
+  const formData = new FormData();
+
+  formData.append('hospital_id', id);
+
+  try {
+
+    const response = await fetch(
+      `${API_BASE}/hospitals/reject.php`,
+      {
+  method: 'POST',
+  body: formData,
+  credentials: 'include'
+      }
+    );
+
+    const result = await response.json();
+
+    if (result.status === true) {
+
+      showToast('Hospital rejected', 'success');
+
+      loadPendingHospitalRequests();
+
+    } else {
+
+      showToast(result.message, 'error');
+    }
+
+  } catch (error) {
+
+    console.log(error);
+
+    showToast('Server error', 'error');
+  }
+}
+
+
+
+async function loadPendingJoinRequests() {
+  try {
+    const response = await fetch(`${API_BASE}/admin/hospital_requests.php`, {
+      credentials: 'include'
+    });
+
+    const result = await response.json();
+
+    const requests = result.data || [];
+
+    pendingJoinRequestCount.innerText = `${requests.length} Pending`;
 
     if (requests.length === 0) {
-      pendingHospitalRequests.innerHTML = `
+      pendingJoinRequests.innerHTML = `
         <p class="text-muted mb-0">
-          No pending hospital requests.
+          No pending join requests.
         </p>
       `;
       return;
     }
 
-    pendingHospitalRequests.innerHTML = '';
+    pendingJoinRequests.innerHTML = '';
 
     requests.forEach((request) => {
-      pendingHospitalRequests.innerHTML += `
+      pendingJoinRequests.innerHTML += `
         <div class="border rounded p-3 mb-3">
 
           <h6 class="font-weight-bold text-primary mb-2">
@@ -297,14 +476,14 @@ async function loadPendingHospitalRequests() {
 
           <button
             class="btn btn-success btn-sm"
-            onclick="approveHospitalRequest(${request.request_id})"
+            onclick="approveJoinRequest(${request.request_id})"
           >
             Approve
           </button>
 
           <button
             class="btn btn-danger btn-sm"
-            onclick="rejectHospitalRequest(${request.request_id})"
+            onclick="rejectJoinRequest(${request.request_id})"
           >
             Reject
           </button>
@@ -316,54 +495,76 @@ async function loadPendingHospitalRequests() {
   } catch (error) {
     console.log(error);
 
-    pendingHospitalRequests.innerHTML = `
-      <p class="text-danger mb-0">
-        Failed to load pending requests.
-      </p>
-    `;
+    showToast('Failed to load join requests', 'error');
   }
 }
+async function approveJoinRequest(requestId) {
+  Swal.fire({
+    title: 'Approve Join Request?',
+    text: 'This doctor will be assigned to the hospital.',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonText: 'Approve',
+    confirmButtonColor: '#198754',
+    cancelButtonColor: '#6c757d'
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      const formData = new FormData();
+      formData.append('request_id', requestId);
 
-async function approveHospitalRequest(requestId) {
-  const formData = new FormData();
-  formData.append('request_id', requestId);
+      const response = await fetch(`${API_BASE}/admin/approve_hospital_request.php`, {
+        method: 'POST',
+        body: formData,
+        credentials: 'include'
+      });
 
-  const response = await fetch(`${API_BASE}/admin/approve_hospital_request.php`, {
-    method: 'POST',
-    body: formData
+      const data = await response.json();
+
+      showToast(data.message, data.status === true ? 'success' : 'error');
+
+      loadPendingJoinRequests();
+      loadAllDoctorHospitalLinks();
+
+      if (doctorSelect.value) {
+        loadAssignedHospitals();
+      }
+    }
   });
-
-  const result = await response.json();
-
-  showToast(result.message, result.status === true ? 'success' : 'error');
-
-  loadPendingHospitalRequests();
-  loadAllDoctorHospitalLinks();
-
-  if (doctorSelect.value) {
-    loadAssignedHospitals();
-  }
 }
 
-async function rejectHospitalRequest(requestId) {
-  const formData = new FormData();
-  formData.append('request_id', requestId);
+async function rejectJoinRequest(requestId) {
+  Swal.fire({
+    title: 'Reject Join Request?',
+    text: 'This doctor-hospital request will be rejected.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Reject',
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#6c757d'
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      const formData = new FormData();
+      formData.append('request_id', requestId);
 
-  const response = await fetch(`${API_BASE}/admin/reject_hospital_request.php`, {
-    method: 'POST',
-    body: formData
+      const response = await fetch(`${API_BASE}/admin/reject_hospital_request.php`, {
+        method: 'POST',
+        body: formData,
+        credentials: 'include'
+      });
+
+      const data = await response.json();
+
+      showToast(data.message, data.status === true ? 'success' : 'error');
+
+      loadPendingJoinRequests();
+      loadAllDoctorHospitalLinks();
+
+      if (doctorSelect.value) {
+        loadAssignedHospitals();
+      }
+    }
   });
-
-  const result = await response.json();
-
-  showToast(result.message, result.status === true ? 'success' : 'error');
-
-  loadPendingHospitalRequests();
-  loadAllDoctorHospitalLinks();
-
-  if (doctorSelect.value) {
-    loadAssignedHospitals();
-  }
 }
 
+loadPendingJoinRequests();
 loadPendingHospitalRequests();

@@ -65,7 +65,9 @@ const approved = myHospitalRequests.filter((item) => Number(item.request_status)
 
 const pending = myHospitalRequests.filter((item) => Number(item.request_status) === 0);
 
-const rejected = myHospitalRequests.filter((item) => Number(item.request_status) === 2);
+const rejected = myHospitalRequests.filter(
+  (item) => Number(item.request_status) === 2
+);
 
     if (approved.length === 0) {
       approvedHospitals.innerHTML = `<div class="empty-state">No approved hospitals yet.</div>`;
@@ -83,9 +85,17 @@ const rejected = myHospitalRequests.filter((item) => Number(item.request_status)
       approvedHospitals.innerHTML += hospitalCard(hospital, 'Approved');
     });
 
-    pending.forEach((hospital) => {
-      pendingHospitals.innerHTML += hospitalCard(hospital, 'Pending', true);
-    });
+pending.forEach((hospital) => {
+  const title =
+    hospital.request_type === 'hospital_add_request'
+      ? 'Pending Hospital Add Request'
+      : 'Pending';
+
+  const canCancel =
+    hospital.request_type === 'link_request';
+
+  pendingHospitals.innerHTML += hospitalCard(hospital, title, canCancel);
+});
 
     rejected.forEach((hospital) => {
   rejectedHospitals.innerHTML += hospitalCard(hospital, 'Rejected');
@@ -116,7 +126,7 @@ function hospitalCard(hospital, statusText, canCancel = false) {
           canCancel
             ? `<button
   class="cancel-request-btn"
-  onclick="cancelHospitalRequest(${hospital.id})"
+  onclick="cancelHospitalRequest(${hospital.request_id})"
 >
   Cancel Request
 </button>`

@@ -1,3 +1,9 @@
+const availabilityOptions = [
+  'Available',
+  'Busy',
+  'On Leave'
+];
+
 async function loadDegreesForRegister() {
   const qualification = document.getElementById('qualification');
 
@@ -22,7 +28,7 @@ async function loadDegreesForRegister() {
         </option>
       `;
     });
-
+$('.chosen-select').trigger('chosen:updated');
   } catch (error) {
     console.log(error);
     qualification.innerHTML = `<option value="">Failed to load degrees</option>`;
@@ -56,7 +62,7 @@ async function loadSpecializationsForRegister() {
         </option>
       `;
     });
-
+$('.chosen-select').trigger('chosen:updated');
   } catch (error) {
     console.log(error);
     specialization.innerHTML = `<option value="">Failed to load specializations</option>`;
@@ -77,24 +83,95 @@ loadDegreesForRegister();
 loadSpecializationsForRegister();
 setupPhoneValidation();
 
+const availabilitySelect =
+  document.getElementById('availability_status');
+
+if (availabilitySelect) {
+
+  availabilitySelect.innerHTML =
+    availabilityOptions.map((status) => `
+      <option value="${status}">
+        ${status}
+      </option>
+    `).join('');
+$('.chosen-select').trigger('chosen:updated');
+}
+
 const registerForm = document.getElementById('registerForm');
 
 registerForm.addEventListener('submit', async (e) => {
   e.preventDefault();
 
-  const name = document.getElementById('name').value.trim();
-  const email = document.getElementById('email').value.trim();
-  const phone = document.getElementById('phone').value.trim();
-  const password = document.getElementById('password').value.trim();
-  const qualification = document.getElementById('qualification').value;
-  const specialization = document.getElementById('specialization').value;
-  const consultingFee = document.getElementById('consulting_fee').value;
-  const availabilityStatus = document.getElementById('availability_status').value;
-  const description = document.getElementById('description').value.trim();
+  let isValid = true;
+
+  const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+
+const name = document.getElementById('name').value.trim();
+const email = document.getElementById('email').value.trim();
+const phone = document.getElementById('phone').value.trim();
+const password = document.getElementById('password').value.trim();
+const qualification = document.getElementById('qualification').value;
+const specialization = document.getElementById('specialization').value;
+
+['name', 'email', 'password', 'phone', 'qualification', 'specialization', 'consulting_fee'].forEach(clearFieldError);
+
+if (name === '') {
+  showFieldError('name', 'Full name is required');
+  isValid = false;
+}
+
+if (email === '') {
+  showFieldError('email', 'Email is required');
+  isValid = false;
+} else if (!isValidEmail(email)) {
+  showFieldError('email', 'Enter a valid email address');
+  isValid = false;
+}
+
+if (password === '') {
+  showFieldError('password', 'Password is required');
+  isValid = false;
+} else if (!passwordPattern.test(password)) {
+  showFieldError('password', 'Password must be 8+ characters with letter, number and special symbol');
+  isValid = false;
+}
+
+if (phone === '') {
+  showFieldError('phone', 'Phone number is required');
+  isValid = false;
+} else if (!isValidPhone(phone)) {
+  showFieldError('phone', 'Phone number must be exactly 10 digits');
+  isValid = false;
+}
+if (qualification === '') {
+  showFieldError('qualification', 'Degree is required');
+  isValid = false;
+}
+
+if (specialization === '') {
+  showFieldError('specialization', 'Specialization is required');
+  isValid = false;
+}
+
+
+
+const consultingFee = document.getElementById('consulting_fee').value;
+
+if (consultingFee === '') {
+  showFieldError('consulting_fee', 'Consulting fee is required');
+  isValid = false;
+} else if (Number(consultingFee) < 0) {
+  showFieldError('consulting_fee', 'Fee cannot be negative');
+  isValid = false;
+}
+
+if (!isValid) return;
+
+const availabilityStatus = document.getElementById('availability_status').value;
+const description = document.getElementById('description').value.trim();
 
   const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.com$/;
   const phonePattern = /^[0-9]{10}$/;
-  const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
 
   if (name === '') {
     showToast('Name is required', 'error');
@@ -168,3 +245,14 @@ registerForm.addEventListener('submit', async (e) => {
     showToast('Server error. Please try again.', 'error');
   }
 });
+
+function initChosenSelects() {
+  if (typeof $ !== 'undefined' && $.fn.chosen) {
+    $('.chosen-select').chosen({
+      width: '100%',
+      no_results_text: 'No results found'
+    });
+  }
+}
+
+document.addEventListener('DOMContentLoaded', initChosenSelects);

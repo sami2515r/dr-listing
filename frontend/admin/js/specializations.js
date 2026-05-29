@@ -12,6 +12,10 @@ async function loadSpecializations() {
     const result = await response.json();
     const specializations = result.data || [];
 
+    specializations.sort((a, b) => {
+  return Number(a.status) - Number(b.status);
+});
+
     countBadge.innerText = `${specializations.length} Specializations`;
 
     if (specializations.length === 0) {

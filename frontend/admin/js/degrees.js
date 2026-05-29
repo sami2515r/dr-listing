@@ -12,6 +12,10 @@ async function loadDegrees() {
     const result = await response.json();
     const degrees = result.data || [];
 
+    degrees.sort((a, b) => {
+  return Number(a.status) - Number(b.status);
+});
+
     countBadge.innerText = `${degrees.length} Degrees`;
 
     if (degrees.length === 0) {

@@ -1488,27 +1488,55 @@ input[type="file"] {
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.5);
-  display: none;
+  display: flex;
   justify-content: center;
   align-items: center;
   z-index: 9999;
 }
 
 .profile-modal {
+  width: 95%;
+  max-width: 900px;
   background: white;
-  width: 500px;
-  max-width: 90%;
-  border-radius: 24px;
-  padding: 30px;
+  border-radius: 26px;
+  padding: 34px;
+  max-height: 88vh;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
-.close-modal-btn {
-  border: none;
-  background: transparent;
-  font-size: 28px;
-  cursor: pointer;
+.profile-modal-header{
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 10;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding-bottom: 18px;
 }
 
+.close-modal-btn{
+  width: 42px !important;
+  height: 42px !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  border: none !important;
+  border-radius: 50% !important;
+
+  background: #ef4444 !important;
+  color: white !important;
+
+  font-size: 20px !important;
+  font-weight: 700 !important;
+
+  cursor: pointer !important;
+}
 .edit-profile-actions {
   margin-top: 20px;
 }
@@ -1628,4 +1656,866 @@ input[type="file"] {
 .hospital-status.rejected {
   background: #fee2e2;
   color: #b91c1c;
+}
+
+.register-card {
+  max-width: 950px;
+  width: 100%;
+}
+
+.register-card h1,
+.register-card p,
+.register-login,
+.register-btn {
+  grid-column: 1 / -1;
+}
+
+.register-card {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px 22px;
+}
+
+.register-field {
+  margin-bottom: 0;
+}
+
+.register-field textarea {
+  min-height: 120px;
+}
+
+.register-field:has(textarea),
+.register-field:has(input[type="file"]) {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 768px) {
+  .register-card {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Auth pages with navbar + footer fix */
+body {
+  min-height: 100vh;
+}
+
+.login-page,
+.register-page {
+  min-height: calc(100vh - 92px);
+  padding: 60px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-card {
+  margin: 0 auto;
+}
+
+.register-card {
+  margin: 0 auto;
+}
+
+/* Register 2 column clean layout */
+.register-card {
+  max-width: 1050px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px 24px;
+}
+
+.register-card h1,
+.register-card > p,
+.register-btn,
+.register-login {
+  grid-column: 1 / -1;
+}
+
+.register-field {
+  margin-bottom: 0;
+}
+
+.register-field textarea,
+.register-field input,
+.register-field select {
+  width: 100%;
+}
+
+.register-field:has(textarea),
+.register-field:has(input[type="file"]) {
+  grid-column: 1 / -1;
+}
+
+/* Footer should stay clean */
+.site-footer {
+  background: #0f172a;
+  color: #ffffff;
+  text-align: center;
+  padding: 28px 20px;
+  margin-top: 0;
+}
+
+.site-footer p {
+  margin: 0;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .register-card {
+    grid-template-columns: 1fr;
+  }
+
+  .login-page,
+  .register-page {
+    padding: 35px 15px;
+  }
+}
+
+.navbar nav a {
+  position: relative;
+  font-weight: 600;
+}
+
+.navbar nav a.active-nav-link {
+  color: #0f766e;
+}
+
+.navbar nav a.active-nav-link::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -8px;
+  width: 70%;
+  height: 3px;
+  background: #14b8a6;
+  border-radius: 20px;
+  transform: translateX(-50%);
+}
+
+.navbar nav a:hover {
+  color: #0f766e;
+}
+
+/* Navbar auth buttons alignment fix */
+
+.navbar nav {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.navbar nav .login-btn,
+.navbar nav .register-btn,
+.navbar nav a.login-btn,
+.navbar nav a.register-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  padding: 0 24px;
+  border-radius: 999px;
+  line-height: 1;
+  margin: 0;
+  vertical-align: middle;
+}
+
+/* Fix huge hero login/register buttons */
+
+.hero .nav-btn,
+.hero .register-btn,
+.hero a.nav-btn,
+.hero a.register-btn {
+  width: auto !important;
+  min-width: 180px !important;
+  height: 56px !important;
+  padding: 0 34px !important;
+  font-size: 18px !important;
+  border-radius: 999px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1 !important;
+}
+
+/* FINAL FIX: home hero login/register buttons */
+
+.hero-actions .nav-btn,
+.hero-actions .register-btn {
+  width: 180px !important;
+  height: 58px !important;
+  min-width: 180px !important;
+  max-width: 180px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  border-radius: 999px !important;
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  grid-column: auto !important;
+}
+
+.hero-actions {
+  display: flex !important;
+  align-items: center !important;
+  gap: 18px !important;
+}
+
+/* FINAL NAVBAR AUTH BUTTON FIX */
+
+.navbar .auth-links {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+}
+
+.navbar .nav-auth-btn {
+  width: 95px !important;
+  height: 38px !important;
+  padding: 0 !important;
+  border-radius: 999px !important;
+
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  color: #ffffff !important;
+  text-decoration: none !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+}
+
+.navbar .nav-login-btn {
+  background: #0f766e !important;
+}
+
+.navbar .nav-register-btn {
+  background: #14b8a6 !important;
+}
+
+/* Absolute final navbar auth button fix */
+#authButtons .auth-links {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+}
+
+#authButtons .nav-auth-btn {
+  width: 92px !important;
+  height: 38px !important;
+  min-width: 92px !important;
+  max-width: 92px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  border-radius: 999px !important;
+  color: #ffffff !important;
+  text-decoration: none !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+
+  transform: none !important;
+  grid-column: auto !important;
+}
+
+#authButtons .nav-login-btn {
+  background: #0f766e !important;
+}
+
+#authButtons .nav-register-btn {
+  background: #14b8a6 !important;
+}
+
+.field-error {
+  color: #dc2626;
+  font-size: 13px;
+  margin-top: 6px;
+  font-weight: 600;
+}
+
+.input-error {
+  border-color: #dc2626 !important;
+  box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.08) !important;
+}
+
+/* Clean field validation UI */
+
+.input-error {
+  border: 1px solid #ef4444 !important;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12) !important;
+  background: #fffafa !important;
+}
+
+.field-error {
+  display: block;
+  margin: 6px 0 12px 4px;
+  color: #dc2626;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.login-card input,
+.register-card input,
+.register-card select,
+.register-card textarea {
+  margin-bottom: 4px !important;
+}
+
+.back-btn{
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 9999;
+
+  background: #0f766e;
+  color: white;
+  border: none;
+
+  padding: 10px 18px;
+  border-radius: 12px;
+
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+
+  transition: 0.3s;
+}
+
+.back-btn:hover{
+  background: #14b8a6;
+  transform: translateY(-2px);
+}
+.hospital-search-box{
+  width: 90%;
+  margin: -45px auto 50px;
+
+  background: white;
+  padding: 20px;
+
+  border-radius: 24px;
+
+  display: flex;
+  gap: 15px;
+  align-items: center;
+
+  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
+
+.hospital-search-box input{
+  flex: 1;
+  height: 55px;
+
+  border: 1px solid #ddd;
+  border-radius: 14px;
+
+  padding: 0 18px;
+  font-size: 16px;
+}
+
+.hospital-search-box button{
+  height: 55px;
+  padding: 0 30px;
+
+  border: none;
+  border-radius: 14px;
+
+  background: linear-gradient(to right,#0f766e,#14b8a6);
+  color: white;
+
+  font-size: 16px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.hospitals-title-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  flex-wrap:wrap;
+}
+
+.add-hospital-btn{
+  background:linear-gradient(to right,#0f766e,#14b8a6);
+  color:white;
+  text-decoration:none;
+
+  padding:12px 22px;
+  border-radius:14px;
+
+  font-weight:600;
+  font-size:15px;
+
+  transition:0.3s;
+  box-shadow:0 6px 18px rgba(20,184,166,0.2);
+}
+
+.add-hospital-btn:hover{
+  transform:translateY(-2px);
+  color:white;
+}
+
+.profile-modal .edit-profile-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.profile-modal .edit-profile-field {
+  min-width: 0;
+}
+
+.profile-modal input,
+.profile-modal select,
+.profile-modal textarea {
+  width: 100%;
+  max-width: 100%;
+}
+
+.profile-modal-overlay {
+  align-items: flex-start;
+  padding-top: 60px;
+}
+.edit-profile-actions{
+  display:flex;
+  justify-content:center;
+  margin-top:30px;
+}
+
+.save-profile-btn{
+  min-width:260px;
+}
+/* Final fix: center Save Changes button only inside edit profile modal */
+
+.profile-modal .edit-profile-actions{
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100% !important;
+}
+
+.profile-modal .save-profile-btn{
+  width: 260px !important;
+  max-width: 260px !important;
+  min-width: 260px !important;
+  display: block !important;
+  margin: 0 auto !important;
+}
+
+/* Final modal save button center fix */
+.profile-modal .edit-profile-actions {
+  grid-column: 1 / -1 !important;
+  width: 100% !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.profile-modal .save-profile-btn {
+  width: 260px !important;
+  min-width: 260px !important;
+  max-width: 260px !important;
+  margin: 0 auto !important;
+}
+
+/* Final clean edit profile modal */
+
+.profile-modal-overlay{
+  position: fixed !important;
+  inset: 0 !important;
+  background: rgba(0,0,0,0.55) !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: flex-start !important;
+  padding-top: 70px !important;
+  z-index: 99999 !important;
+  overflow: hidden !important;
+}
+
+.profile-modal{
+  width: 90% !important;
+  max-width: 900px !important;
+  max-height: 82vh !important;
+  background: #ffffff !important;
+  border-radius: 26px !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  padding: 0 !important;
+}
+
+.profile-modal-header{
+  position: sticky !important;
+  top: 0 !important;
+  background: #ffffff !important;
+  z-index: 50 !important;
+
+  padding: 24px 34px !important;
+  border-bottom: 1px solid #e5e7eb !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+}
+
+.profile-modal-header h2{
+  margin: 0 !important;
+}
+
+.profile-modal .edit-profile-form{
+  padding: 34px !important;
+  margin: 0 auto !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+.close-modal-btn{
+  flex-shrink: 0 !important;
+}
+
+.hospital-owner{
+  display:inline-block;
+  margin:8px 0 12px;
+  padding:6px 12px;
+  border-radius:999px;
+  background:#ecfeff;
+  color:#0f766e;
+  font-size:13px;
+  font-weight:700;
+}
+
+.hospital-card{
+  display:flex;
+  flex-direction:column;
+}
+
+.hospital-owner{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+
+  width:fit-content;
+  min-height:30px;
+
+  margin:10px 0 14px;
+  padding:6px 14px;
+
+  border-radius:999px;
+
+  background:#ecfeff;
+  color:#0f766e;
+
+  font-size:13px;
+  font-weight:700;
+}
+
+.hospital-card .view-btn{
+  margin-top:auto;
+  width:fit-content;
+}
+
+.hospital-type{
+  display: inline-flex !important;
+  width: fit-content !important;
+  max-width: 100% !important;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Chosen dropdown UI match with MedFinder filters */
+
+.premium-filter .chosen-container{
+  width: 100% !important;
+  min-width: 210px;
+}
+
+.premium-filter .chosen-container-single .chosen-single{
+  height: 54px !important;
+
+  display: flex !important;
+  align-items: center !important;
+
+  padding: 0 18px !important;
+
+  border: 1px solid #dbeafe !important;
+  border-radius: 14px !important;
+
+  background: #ffffff !important;
+  box-shadow: none !important;
+
+  color: #374151 !important;
+  font-size: 15px !important;
+}
+
+.premium-filter .chosen-container-single .chosen-single div{
+  top: 15px !important;
+  right: 12px !important;
+}
+
+.premium-filter .chosen-container-active .chosen-single{
+  border-color: #0f766e !important;
+  box-shadow: 0 0 0 3px rgba(15,118,110,0.12) !important;
+}
+
+.premium-filter .chosen-drop{
+  margin-top: 8px !important;
+  border: 1px solid #dbeafe !important;
+  border-radius: 14px !important;
+  overflow: hidden !important;
+  box-shadow: 0 15px 35px rgba(15,23,42,0.16) !important;
+}
+
+.premium-filter .chosen-search input{
+  height: 42px !important;
+  border-radius: 10px !important;
+  border: 1px solid #d1d5db !important;
+  padding: 8px 12px !important;
+}
+
+.premium-filter .chosen-results li{
+  padding: 10px 14px !important;
+  font-size: 14px !important;
+}
+
+.premium-filter .chosen-results li.highlighted{
+  background: #0f766e !important;
+  color: white !important;
+}
+
+/* Chosen UI for register form */
+
+.register-card .chosen-container{
+  width:100% !important;
+}
+
+.register-card .chosen-container-single .chosen-single{
+  height:44px !important;
+  display:flex !important;
+  align-items:center !important;
+
+  padding:0 16px !important;
+
+  border:1px solid #d6e0ef !important;
+  border-radius:12px !important;
+
+  background:#ffffff !important;
+  box-shadow:none !important;
+
+  color:#374151 !important;
+  font-size:15px !important;
+}
+
+.register-card .chosen-container-single .chosen-single div{
+  top:10px !important;
+  right:12px !important;
+}
+
+.register-card .chosen-container-active .chosen-single{
+  border-color:#0f766e !important;
+  box-shadow:0 0 0 3px rgba(15,118,110,0.12) !important;
+}
+
+.register-card .chosen-drop{
+  margin-top:8px !important;
+  border:1px solid #d6e0ef !important;
+  border-radius:12px !important;
+  overflow:hidden !important;
+  box-shadow:0 12px 30px rgba(15,23,42,0.15) !important;
+}
+
+.register-card .chosen-search input{
+  height:40px !important;
+  border-radius:10px !important;
+  border:1px solid #d1d5db !important;
+  padding:8px 12px !important;
+}
+
+.register-card .chosen-results li{
+  padding:10px 14px !important;
+  font-size:14px !important;
+}
+
+.register-card .chosen-results li.highlighted{
+  background:#0f766e !important;
+  color:#ffffff !important;
+}
+
+/* Custom file input styling */
+
+.register-card input[type="file"]{
+  width:100% !important;
+
+  padding:10px 12px !important;
+
+  border:1px solid #d6e0ef !important;
+  border-radius:12px !important;
+
+  background:#ffffff !important;
+
+  font-size:14px !important;
+  color:#374151 !important;
+
+  cursor:pointer !important;
+}
+
+.register-card input[type="file"]::file-selector-button{
+  background:#22c7b8 !important;
+  color:#ffffff !important;
+
+  border:none !important;
+  border-radius:10px !important;
+
+  padding:10px 16px !important;
+  margin-right:14px !important;
+
+  font-weight:600 !important;
+
+  cursor:pointer !important;
+
+  transition:0.2s ease !important;
+}
+
+.register-card input[type="file"]::file-selector-button:hover{
+  background:#0f766e !important;
+}
+/* File input inside profile modal */
+
+.profile-modal input[type="file"]{
+  width:100% !important;
+
+  padding:10px 12px !important;
+
+  border:1px solid #d6e0ef !important;
+  border-radius:12px !important;
+
+  background:#ffffff !important;
+
+  font-size:14px !important;
+  color:#374151 !important;
+
+  cursor:pointer !important;
+}
+
+.profile-modal input[type="file"]::file-selector-button{
+  background:#22c7b8 !important;
+  color:#ffffff !important;
+
+  border:none !important;
+  border-radius:10px !important;
+
+  padding:10px 16px !important;
+  margin-right:14px !important;
+
+  font-weight:600 !important;
+
+  cursor:pointer !important;
+
+  transition:0.2s ease !important;
+}
+
+.profile-modal input[type="file"]::file-selector-button:hover{
+  background:#0f766e !important;
+}
+
+/* Dashboard modal chosen dropdown UI */
+
+.profile-modal .chosen-container{
+  width:100% !important;
+}
+
+.profile-modal .chosen-container-single .chosen-single{
+  height:44px !important;
+
+  display:flex !important;
+  align-items:center !important;
+
+  padding:0 16px !important;
+
+  border:1px solid #d6e0ef !important;
+  border-radius:12px !important;
+
+  background:#ffffff !important;
+
+  box-shadow:none !important;
+
+  color:#374151 !important;
+  font-size:15px !important;
+}
+
+.profile-modal .chosen-container-single .chosen-single div{
+  top:10px !important;
+  right:12px !important;
+}
+
+.profile-modal .chosen-container-active .chosen-single{
+  border-color:#0f766e !important;
+  box-shadow:0 0 0 3px rgba(15,118,110,0.12) !important;
+}
+
+.profile-modal .chosen-drop{
+  margin-top:8px !important;
+
+  border:1px solid #d6e0ef !important;
+  border-radius:12px !important;
+
+  overflow:hidden !important;
+
+  box-shadow:0 12px 30px rgba(15,23,42,0.15) !important;
+}
+
+.profile-modal .chosen-search input{
+  height:40px !important;
+
+  border-radius:10px !important;
+  border:1px solid #d1d5db !important;
+
+  padding:8px 12px !important;
+}
+
+.profile-modal .chosen-results li{
+  padding:10px 14px !important;
+  font-size:14px !important;
+}
+
+.profile-modal .chosen-results li.highlighted{
+  background:#0f766e !important;
+  color:#ffffff !important;
+}
+
+/* Fix schedule edit modal hidden by default */
+#editMyScheduleModal{
+  display: none !important;
+}
+
+#editMyScheduleModal.active{
+  display: flex !important;
+}
+
+#editMyScheduleModal{
+  display:none !important;
+}
+
+#editMyScheduleModal.active{
+  display:flex !important;
+}
+
+#approvedHospitals,
+#pendingHospitals,
+#rejectedHospitals{
+  display:flex;
+  flex-direction:column;
+  gap:24px;
 }

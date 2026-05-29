@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Hospital</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<button class="back-btn" onclick="history.back()">
+  ← Back
+</button>
+<header class="navbar">
+  <div class="logo">MedFinder</div>
+  <nav>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="my-hospitals.html">My Hospitals</a>
+    <div id="authButtons"></div>
+  </nav>
+</header>
+
+<section class="dashboard">
+  <div class="section-title">
+    <h2>Add Hospital</h2>
+    <p>Submit a hospital request for admin approval</p>
+  </div>
+
+  <form class="edit-profile-form" id="addHospitalForm">
+
+    <div class="edit-profile-grid">
+
+      <div class="edit-profile-field">
+        <label>Hospital Name</label>
+        <input type="text" id="hospitalName">
+      </div>
+
+      <div class="edit-profile-field">
+        <label>Hospital Type</label>
+        <input type="text" id="hospitalType">
+      </div>
+
+      <div class="edit-profile-field">
+        <label>Phone</label>
+        <input type="text" id="hospitalPhone" maxlength="10">
+      </div>
+
+      <div class="edit-profile-field">
+        <label>Address Line 1</label>
+        <input type="text" id="address1">
+      </div>
+
+      <div class="edit-profile-field">
+        <label>Address Line 2</label>
+        <input type="text" id="address2">
+      </div>
+
+      <div class="edit-profile-field">
+        <label>City</label>
+        <input type="text" id="city">
+      </div>
+
+      <div class="edit-profile-field">
+        <label>State</label>
+        <input type="text" id="state">
+      </div>
+
+      <div class="edit-profile-field">
+        <label>Country</label>
+        <input type="text" id="country" value="India">
+      </div>
+
+      <div class="edit-profile-field">
+        <label>Pincode</label>
+        <input type="text" id="pincode">
+      </div>
+
+      <div class="edit-profile-field" style="grid-column:1/-1;">
+        <label>Description</label>
+        <textarea id="description"></textarea>
+      </div>
+
+    </div>
+
+    <div class="edit-profile-actions">
+      <button class="save-profile-btn" type="submit">
+        Send Hospital Request
+      </button>
+    </div>
+
+  </form>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="assets/js/notify.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/navbar.js"></script>
+<script src="assets/js/add-hospital.js"></script>
+
+</body>
+</html>

@@ -7,6 +7,7 @@ if (!currentUser) {
 let currentDoctor = null;
 let degreeOptions = [];
 let specializationOptions = [];
+let availabilityOptions = [];
 
 async function loadDegreeOptions() {
   const response = await fetch(`${API_BASE}/degree_masters/list.php`);
@@ -24,6 +25,20 @@ async function loadSpecializationOptions() {
   specializationOptions = (result.data || []).filter((item) => {
     return Number(item.status) === 1;
   });
+}
+async function loadAvailabilityOptions() {
+  const response = await fetch(`${API_BASE}/doctors/list.php`);
+  const result = await response.json();
+
+  const doctors = result.data || result || [];
+
+  availabilityOptions = [
+    ...new Set(
+      doctors
+        .map((doctor) => doctor.availability_status)
+        .filter(Boolean)
+    )
+  ];
 }
 
 async function loadDoctorProfile() {
@@ -174,7 +189,7 @@ function showEditProfileForm() {
             <div class="edit-profile-field">
               <label>Qualification</label>
 
-             <select id="editQualification">
+             <select id="editQualification" class="chosen-select">
   ${degreeOptions.map((degree) => `
     <option
       value="${degree.name}"
@@ -189,7 +204,7 @@ function showEditProfileForm() {
 <div class="edit-profile-field">
   <label>Specialization</label>
 
-  <select id="editSpecialization">
+  <select id="editSpecialization" class="chosen-select">
     ${specializationOptions.map((specialization) => `
       <option
         value="${specialization.name}"
@@ -214,21 +229,16 @@ function showEditProfileForm() {
 
               <label>Availability</label>
 
-              <select id="editAvailability">
-
-                <option value="Available"
-                  ${currentDoctor.availability_status === 'Available' ? 'selected' : ''}
-                >
-                  Available
-                </option>
-
-                <option value="Busy"
-                  ${currentDoctor.availability_status === 'Busy' ? 'selected' : ''}
-                >
-                  Busy
-                </option>
-
-              </select>
+<select id="editAvailability" class="chosen-select">
+  ${availabilityOptions.map((status) => `
+    <option
+      value="${status}"
+      ${currentDoctor.availability_status === status ? 'selected' : ''}
+    >
+      ${status}
+    </option>
+  `).join('')}
+</select>
 
             </div>
 
@@ -245,7 +255,7 @@ function showEditProfileForm() {
     accept="image/*"
   >
 </div>
-
+<br>
 <div
   class="edit-profile-field"
   style="grid-column:1/-1;"
@@ -277,7 +287,16 @@ function showEditProfileForm() {
   document
     .getElementById('editProfileForm')
     .addEventListener('submit', updateProfile);
+$('.chosen-select').chosen('destroy');
+
+$('.chosen-select').chosen({
+  width: '100%',
+  no_results_text: 'No results found'
+});
+
+$('.chosen-select').trigger('chosen:updated');
 }
+
 
 function closeEditModal() {
 
@@ -334,7 +353,8 @@ if (result.status === true) {
 
 Promise.all([
   loadDegreeOptions(),
-  loadSpecializationOptions()
+  loadSpecializationOptions(),
+  loadAvailabilityOptions()
 ]).then(() => {
   loadDoctorProfile();
 });

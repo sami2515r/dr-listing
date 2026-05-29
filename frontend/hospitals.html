@@ -8,7 +8,9 @@
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-
+<button class="back-btn" onclick="history.back()">
+  ← Back
+</button>
 <header class="navbar">
 
   <div class="logo">
@@ -40,19 +42,25 @@
   </div>
 
 </section>
-
+<br>
+<br>
 <section class="hospital-search-section">
 
-  <div class="hospital-search-box">
+<div class="hospital-search-box">
 
-    <input
-      type="text"
-      id="hospitalSearch"
-      placeholder="Search hospital by name, city or type..."
-      onkeyup="filterHospitals()"
-    >
+  <input type="text"
+         id="hospitalSearch"
+         placeholder="Search hospital by name, city or type...">
 
-  </div>
+  <button id="hospitalSearchBtn">
+    Search
+  </button>
+
+  <button id="hospitalClearBtn">
+    Clear
+  </button>
+
+</div>
 
 </section>
 
@@ -72,10 +80,16 @@
   </div>
 
 </section>
-
+<footer class="site-footer">
+  <p>© 2026 MedFinder. All rights reserved.</p>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="assets/js/notify.js"></script>
 <script src="assets/js/api.js"></script>
 <script src="assets/js/hospital.js"></script>
 <script src="assets/js/navbar.js"></script>
+
+
+
 </body>
 </html>

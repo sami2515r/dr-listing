@@ -11,7 +11,7 @@ async function loadPendingDoctors() {
   `;
 
   try {
-    const response = await fetch(`${API_BASE}/doctors/pending_list.php`, {
+    const response = await fetch(`${API_BASE}/doctors/pending_list.php`, { 
       credentials: 'include'
     });
 
@@ -32,10 +32,6 @@ async function loadPendingDoctors() {
 
     countBadge.innerText = `${doctors.length} Pending`;
 
-    const topPendingDoctors = document.getElementById('topPendingDoctors');
-    if (topPendingDoctors) {
-      topPendingDoctors.innerText = doctors.length;
-    }
 
     if (doctors.length === 0) {
       table.innerHTML = `
@@ -107,7 +103,12 @@ async function approveDoctor(id) {
 
   const result = await response.json();
 
-  showToast(result.message, result.status === true ? 'success' : 'error');
+showToast(
+  result.status === true
+    ? 'Doctor approved successfully'
+    : (result.message || 'Doctor approve failed'),
+  result.status === true ? 'success' : 'error'
+);
 
   if (result.status === true) {
     loadPendingDoctors();
@@ -126,7 +127,12 @@ async function rejectDoctor(id) {
 
   const result = await response.json();
 
-  showToast(result.message, result.status === true ? 'success' : 'error');
+showToast(
+  result.status === true
+    ? 'Doctor rejected successfully'
+    : (result.message || 'Doctor reject failed'),
+  result.status === true ? 'success' : 'error'
+);
 
   if (result.status === true) {
     loadPendingDoctors();

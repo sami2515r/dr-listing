@@ -5,12 +5,17 @@ async function loadHospitals() {
   const countBadge = document.getElementById('totalHospitalsCount');
 
   try {
-    const response = await fetch(`${API_BASE}/hospitals/list.php`, {
+    const response = await fetch(`${API_BASE}/hospitals/admin_list.php`, {
       credentials: 'include'
     });
 
     const result = await response.json();
+console.log(result);
     allHospitals = result.data || [];
+
+    allHospitals.sort((a, b) => {
+  return Number(a.status) - Number(b.status);
+});
 
     countBadge.innerText = `${allHospitals.length} Hospitals`;
 
@@ -54,14 +59,14 @@ async function loadHospitals() {
             ${hospital.latitude || '-'}, ${hospital.longitude || '-'}
           </td>
 
-          <td>
-            <button
-              class="btn btn-warning btn-sm"
-              onclick="openEditHospital(${hospital.id})"
-            >
-              Edit
-            </button>
-          </td>
+<td>
+ <button
+  class="btn btn-warning btn-sm"
+  onclick="openEditHospital(${hospital.id})"
+>
+  Edit
+</button>
+</td>
         </tr>
       `;
     });
@@ -292,3 +297,4 @@ if (addHospitalForm) {
     }
   });
 }
+

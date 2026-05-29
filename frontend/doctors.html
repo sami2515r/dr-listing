@@ -6,6 +6,8 @@
   <title>Doctors</title>
 
   <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/chosen-js@1.8.7/chosen.min.css">
 </head>
 <body>
 
@@ -28,6 +30,22 @@
   </nav>
 
 </header>
+<button class="back-btn" onclick="history.back()">
+  ← Back
+</button>
+<section class="hospital-hero doctors-hero">
+  <div>
+    <span class="hero-badge">Verified Medical Experts</span>
+
+    <h1>Find Trusted Doctors Near You</h1>
+
+    <p>
+      Search approved doctors by name, qualification, specialization,
+      availability status and consulting fee.
+    </p>
+  </div>
+</section>
+
 <div class="filter-bar premium-filter">
 
   <input
@@ -36,19 +54,17 @@
     placeholder="Search doctor, specialization, hospital, city..."
   />
 
-  <select id="specializationFilter">
+  <select id="specializationFilter" class="chosen-select">
     <option value="">All Specializations</option>
   </select>
 
-  <select id="cityFilter">
+  <select id="cityFilter" class="chosen-select">
     <option value="">All Locations</option>
   </select>
 
-  <select id="availabilityFilter">
-    <option value="">All Status</option>
-    <option value="Available">Available</option>
-    <option value="Busy">Busy</option>
-  </select>
+<select id="availabilityFilter" class="chosen-select">
+  <option value="">All Status</option>
+</select>
 
   <button onclick="filterDoctors()" class="search-btn">
     Search
@@ -66,6 +82,12 @@
 <section>
   <div class="doctor-grid" id="doctorGrid"></div>
 </section>
+<footer class="site-footer">
+  <p>© 2026 MedFinder. All rights reserved.</p>
+</footer>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chosen-js@1.8.7/chosen.jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="assets/js/notify.js"></script>
 <script src="assets/js/api.js"></script>
 <script src="assets/js/doctors.js"></script>

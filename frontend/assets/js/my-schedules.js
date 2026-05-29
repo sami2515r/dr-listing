@@ -186,11 +186,11 @@ function openEditMySchedule(
   document.getElementById('editMyScheduleStart').value = start.substring(0, 5);
   document.getElementById('editMyScheduleEnd').value = end.substring(0, 5);
 
-  document.getElementById('editMyScheduleModal').style.display = 'flex';
+  document.getElementById('editMyScheduleModal').classList.add('active');
 }
 
 function closeEditMyScheduleModal() {
-  document.getElementById('editMyScheduleModal').style.display = 'none';
+  document.getElementById('editMyScheduleModal').classList.remove('active');
 }
 
 const editMyScheduleForm =

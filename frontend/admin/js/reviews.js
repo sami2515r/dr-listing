@@ -31,6 +31,10 @@ const response = await fetch(`${API_BASE}/reviews/admin_list.php`, {
 
     const reviews = result.data || [];
 
+    reviews.sort((a, b) => {
+  return Number(a.is_approved) - Number(b.is_approved);
+});
+
     const pendingReviews = reviews.filter((review) => {
       return Number(review.is_approved) === 0;
     });
@@ -127,60 +131,67 @@ const response = await fetch(`${API_BASE}/reviews/admin_list.php`, {
 }
 
 async function approveReview(id) {
-  const formData = new FormData();
-  formData.append('review_id', id);
+  Swal.fire({
+    title: 'Approve Review?',
+    text: 'This review will be visible publicly.',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonText: 'Approve',
+    confirmButtonColor: '#198754',
+    cancelButtonColor: '#6c757d'
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      const formData = new FormData();
+      formData.append('review_id', id);
 
-  const response = await fetch(`${API_BASE}/reviews/approve.php`, {
-    method: 'POST',
-    body: formData,
-    credentials: 'include'
+      const response = await fetch(`${API_BASE}/reviews/approve.php`, {
+        method: 'POST',
+        body: formData,
+        credentials: 'include'
+      });
+
+      const data = await response.json();
+
+      showToast(data.message, data.status === true ? 'success' : 'error');
+
+      loadReviews();
+      loadHiddenReviews();
+    }
   });
-
-  const result = await response.json();
-
-  showToast(result.message, result.status === true ? 'success' : 'error');
-
-  if (result.status === true) {
-    loadReviews();
-  }
 }
 
 loadReviews();
-function deleteReview(id, approved = false) {
+async function deleteReview(id, isApproved) {
+  Swal.fire({
+    title: isApproved ? 'Hide Review?' : 'Reject Review?',
+    text: isApproved
+      ? 'This review will be hidden from public view.'
+      : 'This pending review will be rejected.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: isApproved ? 'Hide' : 'Reject',
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#6c757d'
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      const formData = new FormData();
+      formData.append('review_id', id);
+      formData.append('is_approved', isApproved ? 1 : 0);
 
-  selectedReviewId = id;
+      const response = await fetch(`${API_BASE}/reviews/delete.php`, {
+        method: 'POST',
+        body: formData,
+        credentials: 'include'
+      });
 
-  window.selectedReviewApproved = approved;
+      const data = await response.json();
 
-  const modalTitle =
-    document.getElementById('hideReviewModalTitle');
+      showToast(data.message, data.status === true ? 'success' : 'error');
 
-  const modalText =
-    document.getElementById('hideReviewModalText');
-
-  const confirmBtn =
-    document.getElementById('confirmHideReviewBtn');
-
-  if(approved) {
-
-    modalTitle.innerText = 'Hide Review';
-
-    modalText.innerText =
-      'Are you sure you want to hide this review?';
-
-    confirmBtn.innerText = 'Hide Review';
-
-  } else {
-
-    modalTitle.innerText = 'Reject Review';
-
-    modalText.innerText =
-      'Are you sure you want to reject this review?';
-
-    confirmBtn.innerText = 'Reject Review';
-  }
-
-  $('#hideReviewModal').modal('show');
+      loadReviews();
+      loadHiddenReviews();
+    }
+  });
 }
 
 async function loadHiddenReviews() {
@@ -269,36 +280,3 @@ async function restoreReview(id) {
   }
 }
 loadHiddenReviews();
-
-document
-  .getElementById('confirmHideReviewBtn')
-  .addEventListener('click', async () => {
-
-    if(!selectedReviewId) return;
-
-    const formData = new FormData();
-    formData.append('review_id', selectedReviewId);
-
-    formData.append(
-  'is_approved',
-  window.selectedReviewApproved ? 1 : 0
-);
-
-    const response = await fetch(`${API_BASE}/reviews/delete.php`, {
-      method: 'POST',
-      body: formData,
-      credentials: 'include'
-    });
-
-    const result = await response.json();
-
-    $('#hideReviewModal').modal('hide');
-
-    showToast(result.message, result.status === true ? 'success' : 'error');
-
-    if(result.status === true) {
-      selectedReviewId = null;
-      loadReviews();
-      loadHiddenReviews();
-    }
-  });

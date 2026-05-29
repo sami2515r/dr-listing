@@ -8,7 +8,9 @@
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-
+<button class="back-btn" onclick="history.back()">
+  ← Back
+</button>
 <header class="navbar">
 
   <div class="logo">
@@ -40,11 +42,13 @@
   <div id="hospitalDoctors" class="doctor-grid"></div>
 
 </section>
-
+<footer class="site-footer">
+  <p>© 2026 MedFinder. All rights reserved.</p>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="assets/js/notify.js"></script>
 <script src="assets/js/api.js"></script>
 <script src="assets/js/hospital-details.js"></script>
 <script src="assets/js/navbar.js"></script>
-
 </body>
 </html>

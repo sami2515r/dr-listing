@@ -1,3 +1,8 @@
+const availabilityOptions = [
+  'Available',
+  'Busy',
+  'On Leave'
+];
 async function loadDoctors() {
   const table = document.getElementById('doctorsTableBody');
   const countBadge = document.getElementById('totalDoctorsCount');
@@ -29,6 +34,10 @@ const response = await fetch(`${API_BASE}/doctors/admin_list.php`, {
     }
 
     const doctors = result.data || [];
+
+doctors.sort((a, b) => {
+  return Number(a.status) - Number(b.status);
+});
 
     countBadge.innerText = `${doctors.length} Doctors`;
 
@@ -215,6 +224,8 @@ async function loadDoctorFormOptions() {
         </option>
       `;
     });
+
+    $('.chosen-select').trigger('chosen:updated');
 }
 
 function openAddDoctorModal() {
@@ -222,6 +233,8 @@ function openAddDoctorModal() {
   document.getElementById('addDoctorForm').reset();
 
   loadDoctorFormOptions();
+
+  setupAdminDoctorPhoneValidation();
 
   $('#addDoctorModal').modal('show');
 }
@@ -234,7 +247,12 @@ if (addDoctorForm) {
   addDoctorForm.addEventListener('submit', async (e) => {
 
     e.preventDefault();
+const phone = document.getElementById('doctorPhone').value.trim();
 
+if (!/^[0-9]{10}$/.test(phone)) {
+  showToast('Phone number must be exactly 10 digits', 'error');
+  return;
+}
     const formData = new FormData();
 
     formData.append(
@@ -332,6 +350,21 @@ if (addDoctorForm) {
   });
 }
 
+const availabilitySelect =
+  document.getElementById('doctorAvailability');
+
+if (availabilitySelect) {
+
+  availabilitySelect.innerHTML =
+    availabilityOptions.map((status) => `
+      <option value="${status}">
+        ${status}
+      </option>
+    `).join('');
+
+    $('.chosen-select').trigger('chosen:updated');
+}
+
 async function openEditDoctor(doctor) {
 
   await loadDoctorFormOptions();
@@ -413,19 +446,19 @@ async function openEditDoctor(doctor) {
                 <div class="col-md-6 mb-3">
                   <label>Qualification</label>
 
-                  <select
-                    id="editDoctorQualification"
-                    class="form-control"
-                  ></select>
+<select
+  id="editDoctorQualification"
+  class="form-control chosen-select"
+></select>
                 </div>
 
                 <div class="col-md-6 mb-3">
                   <label>Specialization</label>
 
-                  <select
-                    id="editDoctorSpecialization"
-                    class="form-control"
-                  ></select>
+<select
+  id="editDoctorSpecialization"
+  class="form-control chosen-select"
+></select>
                 </div>
 
                 <div class="col-md-6 mb-3">
@@ -442,24 +475,10 @@ async function openEditDoctor(doctor) {
                 <div class="col-md-6 mb-3">
                   <label>Availability</label>
 
-                  <select
-                    id="editDoctorAvailability"
-                    class="form-control"
-                  >
-
-                    <option value="Available">
-                      Available
-                    </option>
-
-                    <option value="Busy">
-                      Busy
-                    </option>
-
-                    <option value="On Leave">
-                      On Leave
-                    </option>
-
-                  </select>
+<select
+  id="editDoctorAvailability"
+  class="form-control chosen-select"
+></select>
                 </div>
 
                 <div class="col-md-12 mb-3">
@@ -532,8 +551,32 @@ async function openEditDoctor(doctor) {
   document.getElementById('editDoctorSpecialization').value =
     doctor.specialization_name || '';
 
+    document.getElementById('editDoctorAvailability').innerHTML =
+  availabilityOptions.map((status) => `
+    <option value="${status}">
+      ${status}
+    </option>
+  `).join('');
+
   document.getElementById('editDoctorAvailability').value =
     doctor.availability_status || 'Available';
+
+    $('#editDoctorQualification').chosen({
+  width: '100%',
+  no_results_text: 'No results found'
+});
+
+$('#editDoctorSpecialization').chosen({
+  width: '100%',
+  no_results_text: 'No results found'
+});
+
+$('#editDoctorAvailability').chosen({
+  width: '100%',
+  no_results_text: 'No results found'
+});
+
+$('.chosen-select').trigger('chosen:updated');
 
   document
     .getElementById('editDoctorForm')
@@ -638,52 +681,65 @@ async function updateDoctorByAdmin(e) {
   }
 }
 
-async function deleteDoctor(id) {
+function deleteDoctor(id) {
 
-  const confirmDelete = confirm(
-    'Are you sure you want to delete this doctor?'
-  );
+  Swal.fire({
+    title: 'Delete Doctor',
+    text: 'Are you sure you want to delete this doctor?',
+    icon: 'warning',
 
-  if(!confirmDelete) return;
+    showCancelButton: true,
 
-  const formData = new FormData();
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#6c757d',
 
-  formData.append('id', id);
+    confirmButtonText: 'Delete'
+  })
 
-  try {
+  .then(async (result) => {
 
-    const response = await fetch(
+    if (result.isConfirmed) {
 
-      `${API_BASE}/doctors/delete.php`,
+      const formData = new FormData();
 
-      {
-        method: 'POST',
-        body: formData,
-        credentials: 'include'
+      formData.append('id', id);
+
+      try {
+
+        const response = await fetch(
+
+          `${API_BASE}/doctors/delete.php`,
+
+          {
+            method: 'POST',
+            body: formData,
+            credentials: 'include'
+          }
+        );
+
+        const result = await response.json();
+
+        showToast(
+          result.message,
+          result.status === true ? 'success' : 'error'
+        );
+
+        if (result.status === true) {
+
+          loadDoctors();
+        }
+
+      } catch (error) {
+
+        console.log(error);
+
+        showToast(
+          'Doctor delete failed',
+          'error'
+        );
       }
-    );
-
-    const result = await response.json();
-
-    showToast(
-      result.message,
-      result.status === true ? 'success' : 'error'
-    );
-
-    if(result.status === true) {
-
-      loadDoctors();
     }
-
-  } catch(error) {
-
-    console.log(error);
-
-    showToast(
-      'Doctor delete failed',
-      'error'
-    );
-  }
+  });
 }
 async function restoreDoctor(id) {
 
@@ -708,11 +764,12 @@ async function restoreDoctor(id) {
 
     const result = await response.json();
 
-    showToast(
-      result.message,
-      result.status === true ? 'success' : 'error'
-    );
-
+showToast(
+  result.status === true
+    ? 'Doctor restored successfully'
+    : (result.message || 'Doctor restore failed'),
+  result.status === true ? 'success' : 'error'
+);
     if(result.status === true) {
 
       loadDoctors();
@@ -728,3 +785,26 @@ async function restoreDoctor(id) {
     );
   }
 }
+
+
+function setupAdminDoctorPhoneValidation() {
+  const phoneInput = document.getElementById('doctorPhone');
+
+  if (!phoneInput) return;
+
+  phoneInput.addEventListener('input', () => {
+    phoneInput.value = phoneInput.value.replace(/\D/g, '').slice(0, 10);
+  });
+}
+
+function initChosenSelects() {
+  if (typeof $ !== 'undefined' && $.fn.chosen) {
+    $('.chosen-select').chosen({
+      width: '100%',
+      no_results_text: 'No results found'
+    });
+  }
+}
+
+document.addEventListener('DOMContentLoaded', initChosenSelects);
+

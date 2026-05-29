@@ -57,15 +57,15 @@ function loadNavbarAuth() {
 
       <div class="auth-links">
 
-        <a href="login.html"
-           class="nav-btn">
+<a href="login.html"
+   class="nav-auth-btn nav-login-btn">
 
           Login
 
         </a>
 
-        <a href="register.html"
-           class="nav-btn register-btn">
+<a href="register.html"
+   class="nav-auth-btn nav-register-btn">
 
           Register
 
@@ -84,3 +84,19 @@ function logoutUser() {
 }
 
 loadNavbarAuth();
+
+function setActiveNavbarLink() {
+  const currentPage = window.location.pathname.split('/').pop();
+
+  const navLinks = document.querySelectorAll('.navbar nav a');
+
+  navLinks.forEach((link) => {
+    const linkPage = link.getAttribute('href');
+
+    if (linkPage === currentPage) {
+      link.classList.add('active-nav-link');
+    }
+  });
+}
+
+setActiveNavbarLink();
